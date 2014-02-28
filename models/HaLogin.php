@@ -109,7 +109,9 @@ class HaLogin extends CActiveRecord
 			// TODO - Can't seem to get this to work with relations properly....
 			$tmp = $login->getData();
 			$user = new User();
-			return $user->findByPk($tmp[0]->userId);
+			$data = $user->findByPk($tmp[0]->userId); 
+			$data->UserLogin;
+			return $data; 
 		}
 		
 	}
