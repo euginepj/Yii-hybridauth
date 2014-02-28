@@ -9,6 +9,7 @@ class RemoteUserIdentity extends CBaseUserIdentity {
 	public $loginProviderIdentifier;
 	private $_adapter;
 	private $_hybridAuth;
+	private $_identity; 
 
 	/**
 	 * @param string The provider you are using
@@ -47,6 +48,11 @@ class RemoteUserIdentity extends CBaseUserIdentity {
 				$this->id = $user->id;
 				$this->username = $user->username;
 				$this->errorCode = self::ERROR_NONE;
+			#	Set Global Session of Yii User; 
+			# 	$user->username in my case is $user->UserLogin->username
+				$this->_identity=new UserIdentity($user->username,$user->password);
+				$this->_identity->authenticate();
+			#	Set Global Session of Yii User; 
 			}
 			return $this->errorCode == self::ERROR_NONE;
 		}
