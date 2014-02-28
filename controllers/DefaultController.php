@@ -1,6 +1,7 @@
 <?php
 
 class DefaultController extends Controller {
+	private $_identity; 
 
 	public function actionIndex() {
 		$this->render('index');
@@ -111,7 +112,15 @@ class DefaultController extends Controller {
 	}
 	
 	private function _loginUser($identity) {
+		#	Adding from here to Set Global Session; 
+		$user = HaLogin::getUser($identity->loginProvider,$identity->loginProviderIdentifier); 
+		#	Adding till here to Set Global Session; 
 		Yii::app()->user->login($identity, 0);
+
+		#	Adding from here to Set Global Session; 
+			$this->_identity=new UserIdentity($user->UserLogin->username,$user->UserLogin->password);
+			$this->_identity->authenticate();
+		#	Adding till here to Set Global Session; 
 		$this->redirect(Yii::app()->user->returnUrl);
 	}
 
